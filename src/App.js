@@ -1,10 +1,13 @@
 import React from 'react';
-import Greeting from './Greeting';
+import './App.css';
+import UserAccountForm from './UserAccountForm';
+import UserLoginForm from './UserLoginForm';
 
 function App() {
   return (
     <div>
-      <Greeting name="React" />
+      <UserAccountForm/>
+      <UserLoginForm/>
     </div>
   );
 }
