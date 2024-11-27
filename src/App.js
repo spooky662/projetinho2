@@ -18,7 +18,7 @@ function App() {
   return (
     <div className="App">
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <a className="navbar-brand" href="#">Titulo principal</a>
+        <a className="navbar-brand" href="#"> Titulo principal</a>
         <div className="collapse navbar-collapse">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
@@ -39,11 +39,11 @@ function App() {
             </li>
             <li className="nav-item">
               <button className="nav-link btn" 
-                onClick={() => handleNavClick('productList')}>Produtos</button>
+                onClick={() => handleNavClick('productList')}>Catálogo</button>
             </li>
             <li className="nav-item">
               <button className="nav-link btn" 
-                onClick={() => handleNavClick('cart')}>Produtos</button>
+                onClick={() => handleNavClick('cart')}>Carrinho</button>
             </li>
           </ul>
         </div>
