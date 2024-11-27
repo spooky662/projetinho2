@@ -25,8 +25,27 @@ const ProductDataForm = () => {
     };
 
     //tratar o save de dados
-    const handleSave = (e) => {
-        console.log('Salvar o dados do produto - chamar o endpoint')
+    const handleSave = async (e) => {
+        e.preventDefault();
+
+        try {
+            console.log('Salvando produto');
+            const response = await axios.post('https://localhost:8080/products/newProduct', formData,{
+                headers:{
+                    'Content-Type':'application/json'
+                }
+            });
+
+            if (response.status === 200) {
+                setResponseMessage('Produto criado com suscesso!');
+            }
+            else {
+                setResponseMessage('Erro ao criar produto.');
+            }
+        } catch (error) {
+            console.error(error);
+            setResponseMessage('Falha ao conectar ao servidor.');
+        }
     };
 
     //limpar tela
@@ -42,8 +61,39 @@ const ProductDataForm = () => {
     };
 
     const handleSearch = async () => {
-        //chamar busca de produto pelo id
-        //carregar form
+        if (!formData.id) {
+            setResponseMessage("Por favor, informe o ID do produto.");
+            return;
+        }
+    
+        try {
+            console.log("Buscando produto com ID:", formData.id);
+            const response = await axios.get(`https://localhost:8080/products/${formData.id}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+    
+            if (response.status === 200 && response.data) {
+                const product = response.data;
+    
+                // Atualizar o formulário com os dados do produto encontrado
+                setFormData({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    description: product.description,
+                    stock: product.stock,
+                });
+    
+                setResponseMessage("Produto encontrado com sucesso!");
+            } else {
+                setResponseMessage("Produto não encontrado.");
+            }
+        } catch (error) {
+            console.error("Erro ao buscar produto:", error);
+            setResponseMessage("Falha ao conectar ao servidor.");
+        }
     };
 
     return (
