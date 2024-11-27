@@ -9,8 +9,9 @@ const Transaction = ({ cart }) => {
   );
 
   return (
-    <div>
-      <h2>Finalizar Compra</h2>
+    <div className="card mx-auto" style={{ maxWidth: '400px' }}>
+      <div className="card-body">
+      <h5 className="card-title">Finalizar Compra</h5>
       {cart.length === 0 ? (
         <p>O carrinho está vazio. Adicione itens para continuar.</p>
       ) : (
@@ -24,33 +25,16 @@ const Transaction = ({ cart }) => {
           </ul>
           <h3>Total: R$ {total.toFixed(2)}</h3>
           <div>
-            <button style={styles.finalizar}>Finalizar Compra</button>
+            <button type="submit" className="btn btn-primary btn-block mt-3">Finalizar Compra</button>
             <Link to="/">
-              <button style={styles.cancelar}>Cancelar</button>
+              <button type="submit" className="btn btn-secondary btn-block mt-3">Cancelar</button>
             </Link>
           </div>
         </div>
       )}
+      </div>
     </div>
   );
-};
-
-const styles = {
-  finalizar: {
-    backgroundColor: "#4caf50",
-    color: "white",
-    padding: "10px 20px",
-    border: "none",
-    cursor: "pointer",
-    marginRight: "10px",
-  },
-  cancelar: {
-    backgroundColor: "#f44336",
-    color: "white",
-    padding: "10px 20px",
-    border: "none",
-    cursor: "pointer",
-  },
 };
 
 export default Transaction;
