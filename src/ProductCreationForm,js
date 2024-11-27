@@ -1,0 +1,103 @@
+import React, { useState } from "react";
+import axios from 'axios';
+
+const ProductCreationForm = () => {
+    const [formData, setFormData] = useState({
+        name: '',
+        description: '',
+        price: '',
+        stock: '',
+    })
+
+    // Handle form input change 
+    const handleChange = (e) => {
+        console.log('Entrou aqui')
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    // Handle form submisssion
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            console.log('Salvando dados');
+            const response = await axios.post('https://api.example.com/create-product', formData);
+            if (response.statis === 200) {
+                setResponseMessage('Produto criado com suscesso!');
+            }
+            else {
+                setResponseMessage('Erro ao criar produto.');
+            }
+        } catch (error) {
+            setResponseMessage('Falha ao conectar ao servidor.');
+        }
+    };
+
+    const [responseMessage, setResponseMessage] = useState('');
+
+    return (
+        <div className="card mx-auto" style={{ maxWidth: '400px' }}>
+            <div className="card-body">
+                <h5 className="card-title">Cadastro de produtos</h5>
+                < div className="product-form" >
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <label>Nome:</label>
+                            <input
+                                className="form-control"
+                                type="text"
+                                name="name"
+                                values={formData.name}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label>Descrição:</label>
+                            <input
+                                className="form-control"
+                                type="text"
+                                name="description"
+                                values={formData.description}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label>Preço:</label>
+                            <input
+                                className="form-control"
+                                type="number"
+                                name="price"
+                                values={formData.price}
+                                onChange={handleChange}
+                                required
+                                min="0"
+                                step="0.01"
+                            />
+                        </div>
+                        <div>
+                            <label>Quantidade:</label>
+                            <input
+                                className="form-control"
+                                type="number"
+                                name="stock"
+                                values={formData.stock}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <button type="submit" className="btn btn-primary btn-block mt-3">Criar Produto</button>
+                    </form>
+                    {responseMessage && <p>{responseMessage}</p>}
+                </div >
+            </div>
+        </div>
+    );
+};
+
+export default ProductCreationForm;
