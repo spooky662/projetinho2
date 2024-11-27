@@ -23,11 +23,11 @@ const UserLoginForm = () => {
 
         try {
             console.log('Salvando dados');
-            const response = await axios.post('https://api.example.com/create-account', formData);
-            if(response.statis === 200){
+            const response = await axios.post('https://api.example.com/login', formData);
+            if (response.statis === 200) {
                 setResponseMessage('Conta logada com suscesso!');
             }
-            else{
+            else {
                 setResponseMessage('Erro ao logar na conta de usuario.');
             }
         } catch (error) {
@@ -38,32 +38,38 @@ const UserLoginForm = () => {
     const [responseMessage, setResponseMessage] = useState('');
 
     return (
-        < div className = "user-login-form" >
-            <h3>Entre em conta de usuario</h3>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Email:</label>
-                    <input
-                    type="email"
-                    name="email"
-                    values={formData.email}
-                    onChange={handleChange}
-                    required
-                    />
-                </div>
-                <div>
-                    <label>Senha:</label>
-                    <input
-                    type="password"
-                    name="password"
-                    values={formData.password}
-                    onChange={handleChange}
-                    required
-                    />
-            </div>
-            <button type="submit">Entrar</button>
-            </form>
-            {responseMessage && <p>{responseMessage}</p>}
+        <div className="card mx-auto" style={{ maxWidth: '400px' }}>
+            <div className="card-body">
+                <h5 className="card-title">Entre em conta de usuario</h5>
+                < div className="user-login-form" >
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <label>Email:</label>
+                            <input
+                                className="form-control"
+                                type="email"
+                                name="email"
+                                values={formData.email}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label>Senha:</label>
+                            <input
+                                className="form-control"
+                                type="password"
+                                name="password"
+                                values={formData.password}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <button type="submit" className="btn btn-primary btn-block mt-3">Entrar</button>
+                    </form>
+                    {responseMessage && <p>{responseMessage}</p>}
+                </div >
+            </div >
         </div >
     );
 }
