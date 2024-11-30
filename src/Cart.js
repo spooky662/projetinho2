@@ -40,7 +40,7 @@ const Cart = () => {
 
     try {
       console.log("Enviando dados do carrinho...");
-      const response = await axios.post("https://localhost:8080/cart/checkout", { cart }, {
+      const response = await axios.post("http://localhost:8080/cart/checkout", { cart }, {
           headers: {
             "Content-Type": "application/json",
           },
