@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
-  const [selectedProduct, setSelectedProduct] = useState(null); // Produto selecionado
   const [responseMessage, setResponseMessage] = useState("");
 
   // Carregar os produtos ao montar o componente
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchProducts = async () => {
+      const token = localStorage.getItem("authToken"); // Recuperar o token do Local Storage
+
       try {
-        const response = await axios.get("https://localhost:8080/products/allProducts");
+        const response = await axios.get("http://localhost:8080/products/allProducts", {
+          headers: {
+            Authorization: `Bearer ${token}`, // Adicionar o token no cabeçalho
+          },
+        });
         setProducts(response.data);
       } catch (error) {
         console.error("Erro ao carregar produtos:", error);
@@ -23,14 +28,19 @@ const ProductList = () => {
 
   // Adicionar produto ao carrinho
   const handleAddToCart = async (product) => {
-    setSelectedProduct(product);
+    const token = localStorage.getItem("authToken"); // Recuperar o token do Local Storage
 
     try {
-      const response = await axios.post("https://localhost:8080/cart/add", { productId: product.id }, {
+      const response = await axios.post(
+        "http://localhost:8080/cart/add",
+        { productId: product.id },
+        {
           headers: {
+            Authorization: `Bearer ${token}`, // Adicionar o token no cabeçalho
             "Content-Type": "application/json",
           },
-        });
+        }
+      );
 
       if (response.status === 200) {
         setResponseMessage(`${product.name} foi adicionado ao carrinho com sucesso!`);
@@ -54,10 +64,13 @@ const ProductList = () => {
             <ul>
               {products.map((product) => (
                 <li key={product.id} className="mb-2">
-                  {product.name} - R$ {product.price.toFixed(2)}
+                  {product.name} - R$ {product.price}
                   <button
-                    className="btn btn-primary btn-sm ms-2" onClick={() => handleAddToCart(product)}>
-                    Adicionar</button>
+                    className="btn btn-primary btn-sm ms-2"
+                    onClick={() => handleAddToCart(product)}
+                  >
+                    Adicionar
+                  </button>
                 </li>
               ))}
             </ul>
