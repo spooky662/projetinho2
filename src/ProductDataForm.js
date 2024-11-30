@@ -1,13 +1,12 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import axios from 'axios';
 
 const ProductDataForm = () => {
     const [formData, setFormData] = useState({
-        id: '',
-        product: '',
+        name: '',
         description: '',
         price: '',
-        stock: ''
+        stock: '',
     });
 
     const [responseMessage, setResponseMessage] = useState('');
@@ -17,7 +16,6 @@ const ProductDataForm = () => {
     //tratar evento change dos campos do form
     const handleChange = (e) => {
         const {name, value} = e.target;
-        console.log(e.target);
         setFormData({
             ...formData,
             [name]: value,
@@ -30,7 +28,7 @@ const ProductDataForm = () => {
 
         try {
             console.log('Salvando produto');
-            const response = await axios.post('https://localhost:8080/products/newProduct', formData,{
+            const response = await axios.post('http://localhost:8080/products/newProduct', formData,{
                 headers:{
                     'Content-Type':'application/json'
                 }
@@ -51,7 +49,6 @@ const ProductDataForm = () => {
     //limpar tela
     const handleClear = () => {
         setFormData({
-            id: '',
             product: '',
             description: '',
             price: '',
@@ -68,7 +65,7 @@ const ProductDataForm = () => {
     
         try {
             console.log("Buscando produto com ID:", formData.id);
-            const response = await axios.get(`https://localhost:8080/products/${formData.id}`, {
+            const response = await axios.get(`http://localhost:8080/products/${formData.id}`, {
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -79,7 +76,6 @@ const ProductDataForm = () => {
     
                 // Atualizar o formulário com os dados do produto encontrado
                 setFormData({
-                    id: product.id,
                     name: product.name,
                     price: product.price,
                     description: product.description,
@@ -103,24 +99,15 @@ const ProductDataForm = () => {
                 <div className="user-account-form">
                     <form>
                         <div className="form-group">
-                            <label>Id: </label>
-                            <input
-                                className="form-control"
-                                type="text"
-                                name="id"
-                                value={formData.id}
-                                onChange={handleChange}
-                                required>
-                            </input>
                             <label>Produto: </label>
                             <input
                                 className="form-control"
                                 type="text"
-                                name="product"
-                                value={formData.product}
+                                name="name"
+                                value={formData.name}
                                 onChange={handleChange}
-                                required>
-                            </input>
+                                required
+                            />
                             <label>Descrição: </label>
                             <input
                                 className="form-control"
@@ -128,8 +115,8 @@ const ProductDataForm = () => {
                                 name="description"
                                 value={formData.description}
                                 onChange={handleChange}
-                                required>
-                            </input>
+                                required
+                            />
                             <label>Preço: </label>
                             <input
                                 className="form-control"
@@ -137,8 +124,8 @@ const ProductDataForm = () => {
                                 name="price"
                                 value={formData.price}
                                 onChange={handleChange}
-                                required>
-                            </input>
+                                required
+                            />
                             <label>Estoque: </label>
                             <input
                                 className="form-control"
@@ -146,14 +133,15 @@ const ProductDataForm = () => {
                                 name="stock"
                                 value={formData.stock}
                                 onChange={handleChange}
-                                required>
-                            </input>
+                                required
+                            />
                         </div>
                         <div>
-                            <button type="button" className="btn btn-primary btn-block mt-3" onClick={handleSave}>Salvar</button>
+                            <button type="button" className="btn btn-primary btn-block mt-3" onClick={handleSave}>Cadastrar</button>
                             <button type="button" className="btn btn-secondary btn-block mt-3" onClick={handleClear}>Limpar</button>
                         </div>
                     </form>
+                    {responseMessage && <p>{responseMessage}</p>}
                 </div>
             </div>
         </div>
