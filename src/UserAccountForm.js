@@ -24,7 +24,7 @@ const UserAccountForm = () => {
 
         try {
             console.log('Salvando dados');
-            const response = await axios.post('https://localhost:8080/users/novouser', formData,{
+            const response = await axios.post('http://localhost:8080/users/novouser', formData,{
                 headers:{
                     'Content-Type':'application/json'
                 }
